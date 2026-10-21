@@ -1,0 +1,13 @@
+# Clave de Firebase: NUNCA subirla
+nube/clave_servicio.json
+*-firebase-adminsdk-*.json
+__pycache__/
+.venv/
+.firebase/
+firebase-debug.log
+*-debug.log
+# Notas de trabajo personales (no van al repo del equipo)
+CLAUDE.md
+# Flutter
+app_movil/build/
+app_movil/.dart_tool/

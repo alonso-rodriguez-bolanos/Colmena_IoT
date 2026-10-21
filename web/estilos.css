@@ -1,0 +1,106 @@
+:root {
+  color-scheme: light;
+  --fondo: #f6f4ef;
+  --superficie: #fcfcfb;
+  --borde: #e2dfd6;
+  --texto: #1d1b16;
+  --texto-2: #52514e;
+  --texto-3: #77756e;
+  --acento: #a86a00;      /* miel: solo para la marca y la pestaña activa */
+  --serie: #2a78d6;       /* color de los datos */
+  --rejilla: #ebe8e1;
+  --alto: #b3261e;
+  --bajo: #1f5fa8;
+  --error-fondo: #fbe9e7;
+  --error-texto: #8c1d18;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --fondo: #121210;
+    --superficie: #1a1a19;
+    --borde: #33322e;
+    --texto: #f0efec;
+    --texto-2: #c3c2b7;
+    --texto-3: #9a998f;
+    --acento: #f0b43c;
+    --serie: #3987e5;
+    --rejilla: #2a2a27;
+    --alto: #ff8a80;
+    --bajo: #82b4ff;
+    --error-fondo: #3b1d1a;
+    --error-texto: #ffb4ab;
+  }
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.cabecera {
+  max-width: 960px; margin: 0 auto; padding: 24px 16px 8px;
+  display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: end; justify-content: space-between;
+}
+.marca { display: flex; gap: 12px; align-items: center; color: var(--acento); }
+h1 { margin: 0; font-size: 1.5rem; color: var(--texto); }
+.sub { margin: 0; color: var(--texto-2); font-size: .9rem; }
+.fuente { margin: 0; font-size: .8rem; color: var(--texto-3); }
+
+main { max-width: 960px; margin: 0 auto; padding: 8px 16px 24px; }
+
+.pestanas { display: flex; gap: 4px; overflow-x: auto; border-bottom: 1px solid var(--borde); }
+.pestanas button {
+  background: none; border: 0; padding: 10px 14px; cursor: pointer; white-space: nowrap;
+  font: inherit; font-size: .95rem; color: var(--texto-2);
+  border-bottom: 3px solid transparent; margin-bottom: -1px;
+}
+.pestanas button[aria-selected="true"] { color: var(--texto); font-weight: 600; border-bottom-color: var(--acento); }
+.pestanas button:focus-visible { outline: 2px solid var(--serie); outline-offset: -2px; }
+
+.panel {
+  background: var(--superficie); border: 1px solid var(--borde); border-top: 0;
+  border-radius: 0 0 12px 12px; padding: 20px 16px;
+}
+.descripcion { margin: 0 0 16px; color: var(--texto-2); }
+
+.filtros { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
+.filtros label { display: flex; flex-direction: column; gap: 4px; font-size: .8rem; color: var(--texto-2); }
+.filtros label[hidden] { display: none; }
+select, input[type="date"] {
+  font: inherit; font-size: .95rem; color: var(--texto); background: var(--fondo);
+  border: 1px solid var(--borde); border-radius: 8px; padding: 8px 10px; min-height: 40px;
+}
+.filtros button {
+  font: inherit; font-weight: 600; min-height: 40px; padding: 8px 18px; cursor: pointer;
+  border: 0; border-radius: 8px; background: var(--texto); color: var(--superficie);
+}
+.filtros button:disabled { opacity: .5; cursor: progress; }
+
+.mensaje { margin-top: 16px; padding: 12px; border-radius: 8px; background: var(--fondo); color: var(--texto-2); }
+.mensaje.error { background: var(--error-fondo); color: var(--error-texto); }
+
+#resultado { margin-top: 20px; }
+#resultado h2 { font-size: 1rem; margin: 0 0 8px; }
+.zona-grafico { position: relative; height: 340px; }
+.zona-grafico[hidden] { display: none; }
+
+.extremos { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.extremos:empty { display: none; }
+.tarjeta { border: 1px solid var(--borde); border-radius: 10px; padding: 14px 16px; }
+.tarjeta .etq { font-size: .8rem; color: var(--texto-2); display: flex; gap: 6px; align-items: center; }
+.tarjeta .val { font-size: 1.8rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.tarjeta .cuando { font-size: .85rem; color: var(--texto-3); }
+.tarjeta.alto .etq svg { color: var(--alto); }
+.tarjeta.bajo .etq svg { color: var(--bajo); }
+
+.detalle-tabla { margin-top: 12px; font-size: .9rem; }
+.detalle-tabla summary { cursor: pointer; color: var(--texto-2); }
+table { border-collapse: collapse; margin-top: 8px; font-variant-numeric: tabular-nums; }
+th, td { padding: 4px 12px; border-bottom: 1px solid var(--borde); text-align: right; }
+th:first-child, td:first-child { text-align: left; }
+
+.pie { max-width: 960px; margin: 0 auto; padding: 0 16px 24px; font-size: .75rem; color: var(--texto-3); }

@@ -1,0 +1,13 @@
+rules_version = '2';
+// Pegar en Consola de Firebase -> Firestore Database -> Reglas -> Publicar.
+// Cualquiera puede LEER las lecturas (la web y la app no tienen login).
+// Nadie puede escribir desde la web o la app; el script de subida usa una
+// cuenta de servicio (firebase-admin), que no pasa por estas reglas.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /lecturas/{id} {
+      allow read: if true;
+      allow write: if false;
+    }
+  }
+}

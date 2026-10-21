@@ -1,0 +1,9 @@
+{
+  "hosting": {
+    "public": "web",
+    "ignore": ["firebase.json", "**/.*", "test/**"]
+  },
+  "firestore": {
+    "rules": "nube/firestore.rules"
+  }
+}

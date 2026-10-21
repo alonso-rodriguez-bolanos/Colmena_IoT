@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Colmena IoT</title>
+  <link rel="stylesheet" href="estilos.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="cabecera">
+    <div class="marca">
+      <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
+        <path d="M12 2 20.66 7v10L12 22 3.34 17V7z" fill="none" stroke="currentColor" stroke-width="2"/>
+      </svg>
+      <div>
+        <h1>Colmena IoT</h1>
+        <p class="sub">Monitoreo de una colmena · consulta de datos</p>
+      </div>
+    </div>
+    <p id="fuente" class="fuente">Conectando…</p>
+  </header>
+
+  <main>
+    <nav class="pestanas" role="tablist" aria-label="Tipo de consulta">
+      <button role="tab" data-consulta="hora" aria-selected="true">Promedio por hora</button>
+      <button role="tab" data-consulta="dia" aria-selected="false">Promedio por día</button>
+      <button role="tab" data-consulta="maxmin" aria-selected="false">Máximo y mínimo</button>
+      <button role="tab" data-consulta="historico" aria-selected="false">Histórico</button>
+    </nav>
+
+    <section class="panel">
+      <p id="descripcion" class="descripcion"></p>
+
+      <form id="filtros" class="filtros">
+        <label>Sensor
+          <select id="sensor"></select>
+        </label>
+        <label data-para="hora">Día
+          <input type="date" id="dia" required>
+        </label>
+        <label data-para="dia maxmin">Desde
+          <input type="date" id="desde" required>
+        </label>
+        <label data-para="dia maxmin">Hasta
+          <input type="date" id="hasta" required>
+        </label>
+        <button type="submit" id="consultar">Consultar</button>
+      </form>
+
+      <div id="mensaje" class="mensaje" role="status" hidden></div>
+
+      <div id="resultado" hidden>
+        <h2 id="titulo-resultado"></h2>
+        <div id="zona-grafico" class="zona-grafico">
+          <canvas id="grafico" aria-label="Gráfico del resultado" role="img"></canvas>
+        </div>
+        <div id="extremos" class="extremos"></div>
+        <details id="detalle-tabla" class="detalle-tabla">
+          <summary>Ver como tabla</summary>
+          <table id="tabla"></table>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">IC3101 Arquitectura de Computadoras · Proyecto IoT · Horas en tiempo de Costa Rica (UTC−6)</footer>
+</body>
+</html>
