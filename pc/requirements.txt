@@ -1,0 +1,1 @@
+playwright>=1.44   # leer Tinkercad en vivo

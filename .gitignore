@@ -2,6 +2,12 @@
 nube/clave_servicio.json
 *-firebase-adminsdk-*.json
 __pycache__/
+# Datos que genera cada captura de A: se quedan en la computadora
+datos/capturas/
+datos/lecturas_arduino.csv
+datos/lecturas_aumentadas.csv
+datos/bitacora_evidencia.csv
+.DS_Store
 .venv/
 .firebase/
 firebase-debug.log

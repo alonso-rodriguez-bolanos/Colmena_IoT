@@ -15,9 +15,11 @@ Uso:
     python subir_firestore.py ../datos/muestra.csv
 
     # Borrar la colección antes de subir (p. ej. cambiar la muestra por los datos finales).
-    python subir_firestore.py ../datos/colmena_final.csv --vaciar
+    python subir_firestore.py ../datos/lecturas_aumentadas.csv --vaciar
 
 Qué hace:
+  - Lee las columnas con los nombres de A (temperatura_interna_c, peso_kg...) y las
+    guarda en Firestore como temp_int, peso... (ver CONTRATO_DATOS.md).
   - Lee la fecha de la columna --col-fecha. Si viene sin zona horaria, la toma como
     hora de Costa Rica (UTC-6) y la guarda en Firestore como Timestamp.
   - Reduce las filas "aumentado" a una cada --cada-min minutos (5 por defecto).
@@ -34,7 +36,16 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 CR = timezone(timedelta(hours=-6))
-SENSORES = ["temp_int", "temp_ext", "peso", "actividad", "gas", "luz"]
+SENSORES = ["temp_int", "temp_ext", "peso", "actividad", "gas", "luz"]  # campos en Firestore
+COLUMNAS_CSV = {  # columna del CSV de A (pc/) -> campo en Firestore
+    "temperatura_interna_c": "temp_int",
+    "temperatura_externa_c": "temp_ext",
+    "peso_kg": "peso",
+    "actividad_pct": "actividad",
+    "gas_indice": "gas",
+    "luz_pct": "luz",
+}
+ORIGEN = {"arduino": "real"}  # A marca las lecturas de Tinkercad como "arduino"
 ENTEROS = {"actividad", "gas", "luz"}
 LOTE = 400  # Firestore permite hasta 500 operaciones por lote
 
@@ -66,7 +77,7 @@ def preparar(ruta: Path, col_fecha: str, cada_min: int):
     docs, vistos_bucket, omitidas = {}, set(), 0
     with open(ruta, newline="", encoding="utf-8-sig") as f:
         lector = csv.DictReader(f)
-        faltan = [c for c in [col_fecha, *SENSORES] if c not in (lector.fieldnames or [])]
+        faltan = [c for c in [col_fecha, *COLUMNAS_CSV] if c not in (lector.fieldnames or [])]
         if faltan:
             sys.exit(f"ERROR: al CSV le faltan columnas {faltan}. Tiene: {lector.fieldnames}\n"
                      f"Ver CONTRATO_DATOS.md o use --col-fecha.")
@@ -76,6 +87,7 @@ def preparar(ruta: Path, col_fecha: str, cada_min: int):
             except ValueError as e:
                 sys.exit(f"ERROR en la línea {n}: {e}")
             origen = (fila.get("origen") or "real").strip() or "real"
+            origen = ORIGEN.get(origen, origen)
             if origen != "real" and cada_min > 0:
                 bucket = int(ts.timestamp()) // (cada_min * 60)
                 if bucket in vistos_bucket:
@@ -83,11 +95,11 @@ def preparar(ruta: Path, col_fecha: str, cada_min: int):
                     continue
                 vistos_bucket.add(bucket)
             doc = {"ts": ts, "origen": origen}
-            for c in SENSORES:
-                doc[c] = a_numero(c, fila[c])
+            for columna, campo in COLUMNAS_CSV.items():
+                doc[campo] = a_numero(campo, fila[columna])
             # Columnas extra de A (periodo, estado, alerta...): se suben tal cual.
             for c, v in fila.items():
-                if c in doc or c == col_fecha or c is None:
+                if c in doc or c in COLUMNAS_CSV or c == col_fecha or c is None:
                     continue
                 try:
                     doc[c] = float(v) if v not in ("", None) else None

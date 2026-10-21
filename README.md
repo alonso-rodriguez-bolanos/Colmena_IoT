@@ -41,7 +41,27 @@ Todas las horas se muestran en hora de Costa Rica (UTC−6).
 ## Cómo correr cada parte
 
 ### Etapas 1 y 2
-_(completar: cómo correr `monitor_serial.py`, `aumento_datos.py` y `analisis.py`)_
+
+1. Pegar `arduino/colmena_iot.ino` en Tinkercad (Code → Text) e iniciar la simulación.
+2. Instalar una sola vez: `pip install playwright` (se necesita Google Chrome).
+3. Capturar y procesar:
+
+```bash
+cd pc
+python capturar.py    # abre Tinkercad en Chrome, junta 300 lecturas (10 min) y procesa todo
+python procesar.py    # solo volver a procesar la última captura, sin capturar
+```
+
+Tinkercad simula el Arduino en el navegador y no crea un puerto COM, así que `puente_tinkercad.py` lee el Serial Monitor desde Chrome cada segundo y entrega cada línea nueva como si llegara por el puerto. `monitor_serial.py` le pone fecha y hora, descarta valores imposibles y avisa qué sensor revisar.
+
+`procesar.py` genera, en `datos/`:
+
+| Archivo | Para qué |
+|---|---|
+| `lecturas_aumentadas.csv` | Captura real + 7 días aumentados. Es el que se sube con `nube/subir_firestore.py` |
+| `bitacora_evidencia.csv` | Eventos detectados: firma de intoxicación (gas + caída de actividad + caída de peso) y enjambrazón |
+
+Estos archivos no se suben a git. Pruebas de la etapa 2: `cd pc && python -m unittest discover -s tests -v`. Detalle en [`pc/README.md`](pc/README.md).
 
 ### Etapa 3: subir a Firestore
 

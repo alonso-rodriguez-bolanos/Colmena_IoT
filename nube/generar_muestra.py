@@ -18,7 +18,8 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 CR = timezone(timedelta(hours=-6))  # Costa Rica, sin horario de verano
-CAMPOS = ["fecha_hora", "temp_int", "temp_ext", "peso", "actividad", "gas", "luz", "origen"]
+CAMPOS = ["fecha_hora", "temperatura_interna_c", "temperatura_externa_c", "peso_kg", "actividad_pct",
+          "gas_indice", "luz_pct", "origen"]
 
 
 def generar(dias: int, fin: datetime):
@@ -41,12 +42,12 @@ def generar(dias: int, fin: datetime):
         peso += 0.0025 * nubosidad if 9 <= h < 16 else -0.0008
         yield {
             "fecha_hora": t.isoformat(timespec="seconds"),
-            "temp_int": round(34.5 + 0.3 * math.sin(2 * math.pi * (h - 9) / 24) + ruido(0.15), 2),
-            "temp_ext": round(26 + 4 * math.sin(2 * math.pi * (h - 9) / 24) + ruido(0.4), 2),
-            "peso": round(peso + ruido(0.01), 2),
-            "actividad": int(round(min(100, max(0, actividad)))),
-            "gas": int(round(200 + ruido(15))),
-            "luz": int(round(min(100, max(0, luz)))),
+            "temperatura_interna_c": round(34.5 + 0.3 * math.sin(2 * math.pi * (h - 9) / 24) + ruido(0.15), 2),
+            "temperatura_externa_c": round(26 + 4 * math.sin(2 * math.pi * (h - 9) / 24) + ruido(0.4), 2),
+            "peso_kg": round(peso + ruido(0.01), 2),
+            "actividad_pct": int(round(min(100, max(0, actividad)))),
+            "gas_indice": int(round(200 + ruido(15))),
+            "luz_pct": int(round(min(100, max(0, luz)))),
             "origen": "aumentado",
         }
         t += timedelta(minutes=5)

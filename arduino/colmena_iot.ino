@@ -8,6 +8,7 @@ const int PIN_PIR = 2;            // PIR apuntando a la piquera
 const unsigned long INTERVALO_MS = 2000;
 const float PESO_MAX_KG = 40.0;  // peso que corresponde a la lectura 1023
 const int MUESTRAS_PIR = 20;     // lecturas del PIR dentro de cada intervalo
+unsigned long numero_lectura = 0;  // numera cada linea para que la PC no repita ni pierda
 
 float leer_tmp36(int pin) {
   float voltaje = analogRead(pin) * 5.0 / 1024.0;  // ADC de 10 bits
@@ -40,6 +41,7 @@ void setup() {
 
 void loop() {
   int actividad = medir_actividad_pct();
+  numero_lectura++;
   Serial.print("DATA,");
   Serial.print(leer_tmp36(PIN_TEMP_INTERNA), 2);
   Serial.print(',');
@@ -51,5 +53,7 @@ void loop() {
   Serial.print(',');
   Serial.print(analogRead(PIN_GAS));
   Serial.print(',');
-  Serial.println(leer_luz_pct());
+  Serial.print(leer_luz_pct());
+  Serial.print(',');
+  Serial.println(numero_lectura);
 }
