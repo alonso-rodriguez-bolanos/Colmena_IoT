@@ -4,7 +4,7 @@ Proyecto IoT del curso IC3101 Arquitectura de Computadoras (TEC).
 Monitoreo de una colmena con 6 sensores en Arduino (simulado en Tinkercad), datos en la PC, almacenamiento en Firebase y consulta desde una aplicación web y una móvil.
 
 **Circuito en Tinkercad:** _(pegar aquí el enlace público)_
-**Página web publicada:** _(pegar aquí la URL de Firebase Hosting)_
+**Página web publicada:** https://colmena-iot-tec.web.app
 **APK:** _(adjunto en la entrega / sección Releases)_
 
 ## Arquitectura
@@ -72,9 +72,11 @@ Publicar en Firebase Hosting:
 ```bash
 npm install -g firebase-tools
 firebase login
-firebase use --add            # elegir el proyecto
 firebase deploy --only hosting,firestore:rules
 ```
+
+El proyecto (`colmena-iot-tec`) ya está fijado en `.firebaserc`, así que no hace falta `firebase use --add`.
+En Windows, si `python` no funciona, usar `py`.
 
 ### Etapa 4: app móvil
 Ver [`app_movil/README.md`](app_movil/README.md).
