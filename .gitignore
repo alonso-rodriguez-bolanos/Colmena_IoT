@@ -15,5 +15,5 @@ firebase-debug.log
 # Notas de trabajo personales (no van al repo del equipo)
 CLAUDE.md
 # Flutter
-app_movil/build/
-app_movil/.dart_tool/
+movil/build/
+movil/.dart_tool/

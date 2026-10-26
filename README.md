@@ -3,9 +3,8 @@
 Proyecto IoT del curso IC3101 Arquitectura de Computadoras (TEC).
 Monitoreo de una colmena con 6 sensores en Arduino (simulado en Tinkercad), datos en la PC, almacenamiento en Firebase y consulta desde una aplicación web y una móvil.
 
-**Circuito en Tinkercad:** _(pegar aquí el enlace público)_
+**Circuito en Tinkercad:** https://www.tinkercad.com/things/iMggERHdqN8-colmena-iot/editel?returnTo=https%3A%2F%2Fwww.tinkercad.com%2Fdashboard&sharecode=PPATr75AcHlVmoDYXWMt-I5OVBtnh7Z1MdflyBYK5p8
 **Página web publicada:** https://colmena-iot-tec.web.app
-**APK:** _(adjunto en la entrega / sección Releases)_
 
 ## Arquitectura
 
@@ -14,7 +13,7 @@ Monitoreo de una colmena con 6 sensores en Arduino (simulado en Tinkercad), dato
 | 1. Obtención de datos | 6 sensores envían una línea `DATA,...` cada 2 s por el puerto serie | `arduino/` | Arduino UNO (Tinkercad) |
 | 2. Datos en la PC | Lee el puerto, guarda el CSV con fecha y hora, genera 7 días aumentados y detecta eventos | `pc/` | Python |
 | 3. Datos en la nube | Sube el CSV a la colección `lecturas` | `nube/` | Cloud Firestore |
-| 4. Consulta | 4 consultas con gráficos | `web/`, `app_movil/` | HTML + JavaScript + Chart.js · Flutter (Dart) |
+| 4. Consulta | 4 consultas con gráficos | `web/`, `movil/` | HTML + JavaScript + Chart.js · Flutter (Dart) |
 
 El formato de los datos y las reglas de cálculo que comparten la web y la app están en [`CONTRATO_DATOS.md`](CONTRATO_DATOS.md).
 
@@ -99,7 +98,7 @@ El proyecto (`colmena-iot-tec`) ya está fijado en `.firebaserc`, así que no ha
 En Windows, si `python` no funciona, usar `py`.
 
 ### Etapa 4: app móvil
-Ver [`app_movil/README.md`](app_movil/README.md).
+Ver [`movil/README.md`](movil/README.md).
 
 ## Integrantes
 

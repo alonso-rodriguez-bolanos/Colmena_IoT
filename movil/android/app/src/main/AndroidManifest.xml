@@ -31,6 +31,11 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <!-- Impeller (OpenGL) no dibuja en emuladores con gráficos por software: la app
+             se quedaba en el logo de Flutter. Con Skia funciona en emulador y en teléfono. -->
+        <meta-data
+            android:name="io.flutter.embedding.android.EnableImpeller"
+            android:value="false" />
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and
